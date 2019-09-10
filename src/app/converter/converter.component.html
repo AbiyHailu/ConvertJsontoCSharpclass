@@ -1,8 +1,15 @@
 <h1>{{name}}</h1>
-<h5>Enter String</h5>
+Enter JSON <br/>
+Include 'JsonProperty' 
+<input type="checkbox" [checked]="includeJsonProperty" (change)="changeStatus($event.target.checked)">
+<br/><br/>
 <div>
-  <textarea  type="text"  rows = "20" cols = "50" ></textarea>
+ <textarea   type="text"  rows = "20" cols = "50" #textValue ></textarea> 
 </div>
 <div>
-  <button (click)="submit">Submit</button>
+  <button (click)="submit(textValue)">Submit</button>
+</div>
+<div>
+ <!--  {{converted}} -->
+
 </div>
