@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'convert',
   templateUrl: `converter.component.html`,
-  styleUrls:['converter.component.css']
+  styleUrls: ['converter.component.css']
 })
 export class ConverterComponent {
   @Input() name: string;
@@ -11,50 +11,56 @@ export class ConverterComponent {
   constructor() {
     //this.converertToCSharpClass(this.obj)
   }
+  val
   submit(value) {
+    this.val = value.value
     this.converertToCSharpClass(value.value)
   }
 
   includeJsonProperty = false
-  changeStatus(value ){
-      this.includeJsonProperty = value
+  changeStatus(value) {
+    this.includeJsonProperty = value
+    if (this.val) {
+      this.converertToCSharpClass(this.val)
+    }
+
   }
- cSharpClassArray= []
+  cSharpClassArray = []
   cSharpString = ''
   converertToCSharpClass(obj) {
     this.cSharpString = ''
-    this.cSharpClassArray=[]
+    this.cSharpClassArray = []
     let textToJSON = JSON.parse(obj)
     Object.keys(textToJSON).forEach(element => {
-       this.cSharpString = ''
+      this.cSharpString = ''
       let capitalLetter = element.charAt(0).toUpperCase() + element.slice(1)
       if (typeof textToJSON[element] == 'number') {
         if (this.includeJsonProperty == true) {
-          element = '[JsonProperty("' + element + '")]'+ '\n' + ' ' + "public int" + ' ' + capitalLetter + ' ' + "{get; set;}"
+          element = '[JsonProperty("' + element + '")]' + '\n' + ' ' + "public int" + ' ' + capitalLetter + ' ' + "{get; set;}"
         } else {
           element = "public int" + ' ' + element + ' ' + "{get; set;}"
         }
         this.cSharpString = this.cSharpString + ' ' + element
       } else if (typeof textToJSON[element] == 'string') {
         if (this.includeJsonProperty == true) {
-          element = '[JsonProperty("' + element + '")]' + '\n'+ ' ' + "public string" + ' ' + capitalLetter + ' ' + "{get; set;}"
+          element = '[JsonProperty("' + element + '")]' + '\n' + ' ' + "public string" + ' ' + capitalLetter + ' ' + "{get; set;}"
         } else {
-           element = "public string" + ' ' + element + ' ' + "{get; set;}"
+          element = "public string" + ' ' + element + ' ' + "{get; set;}"
         }
 
         this.cSharpString = this.cSharpString + ' ' + element
       } else {
 
         if (this.includeJsonProperty == true) {
-          element = '[JsonProperty("' + element + '")]' + '\n' +' ' + "public string" + ' ' + capitalLetter + ' ' + "{get; set;}"
+          element = '[JsonProperty("' + element + '")]' + '\n' + ' ' + "public string" + ' ' + capitalLetter + ' ' + "{get; set;}"
         } else {
-           element = "public string" + ' ' + element + ' ' + "{get; set;}"
+          element = "public string" + ' ' + element + ' ' + "{get; set;}"
         }
         this.cSharpString = this.cSharpString + ' ' + element
       }
-     
-     this.cSharpClassArray.push(this.cSharpString)
+
+      this.cSharpClassArray.push(this.cSharpString)
     });
-     console.log(this.cSharpClassArray)
+    console.log(this.cSharpClassArray)
   }
 }
