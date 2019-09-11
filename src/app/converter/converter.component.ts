@@ -14,6 +14,13 @@ export class ConverterComponent {
   val
   submit(value) {
     this.val = value.value
+    try {
+      JSON.parse(value.value);
+    } catch (e) {
+      alert('Pleas, enter a valid JSON')
+      return false;
+    }
+    return true;
     this.converertToCSharpClass(value.value)
   }
 
