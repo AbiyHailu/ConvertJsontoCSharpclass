@@ -11,17 +11,26 @@ export class ConverterComponent {
   constructor() {
     //this.converertToCSharpClass(this.obj)
   }
+
   val
+
   submit(value) {
-    this.val = value.value
-    try {
-      JSON.parse(value.value);
-    } catch (e) {
-      alert('Pleas, enter a valid JSON')
-      return false;
+    if (this.objtype == 'JSON') {
+      this.val = value.value
+      try {
+        JSON.parse(value.value);
+      } catch (e) {
+        alert('Pleas, enter a valid JSON')
+        return false;
+      }
+      return true;
+      this.converertToCSharpClass(value.value)
+    } else if (this.objtype == 'CSHARP') {
+      this.converertToCSharpClasswithJson(value.value)
+    } else {
+      alert('Pleas, select type JSON or C#')
     }
-    return true;
-    this.converertToCSharpClass(value.value)
+
   }
 
   includeJsonProperty = false
@@ -30,8 +39,14 @@ export class ConverterComponent {
     if (this.val) {
       this.converertToCSharpClass(this.val)
     }
-
   }
+
+  objtype
+  onRadioChange(value) {
+    this.objtype = value
+    console.log(this.objtype)
+  }
+
   cSharpClassArray = []
   cSharpString = ''
   converertToCSharpClass(obj) {
@@ -70,4 +85,32 @@ export class ConverterComponent {
     });
     console.log(this.cSharpClassArray)
   }
+
+
+  finalstring = ''
+  converertToCSharpClasswithJson(str) {
+    this.finalstring =''
+    this.cSharpClassArray = []
+    var x = str.trim().split("{ get; set; }").filter(e => e != "")
+    console.log(x)
+    x.forEach(element => {
+      let r = element.trim().split(" ")
+      let name = r[r.length - 1]
+      let type = r[r.length - 2]
+      let pub = r[r.length - 3]
+      let upper = name.charAt(0).toUpperCase() + name.slice(1)
+      let finstr = pub + ' ' + type + ' ' + name
+      let y = '[JsonProperty("' + upper + '")]' + finstr + ' ' + "{get; set;}"
+
+      this.finalstring = this.finalstring + y
+      //  console.log('this.finalstring', this.finalstring)
+      this.cSharpClassArray.push(this.finalstring)
+    });
+    // let r = Object.assign({}, ...[this.cSharpClassArray])
+    //  console.log(r)
+  }
+
+
+
+
 }

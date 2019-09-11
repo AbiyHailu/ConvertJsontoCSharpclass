@@ -1,5 +1,9 @@
 <h1>{{name}}</h1>
-Enter JSON <br/>
+
+  <input type="radio" name="objtype" value="JSON" (change)="onRadioChange('JSON')"> JSON Objects  <br>
+  <input type="radio" name="objtype" value="CSHARP" (change)="onRadioChange('CSHARP')"> C# Class Properties  <br>
+  
+<br/>
 Include 'JsonProperty' 
 <input type="checkbox" [checked]="includeJsonProperty" (change)="changeStatus($event.target.checked)">
 <br/><br/>
