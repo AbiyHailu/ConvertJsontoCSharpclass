@@ -19,12 +19,12 @@ export class ConverterComponent {
       this.val = value.value
       try {
         JSON.parse(value.value);
+        this.converertToCSharpClass(value.value)
       } catch (e) {
         alert('Pleas, enter a valid JSON')
         return false;
       }
-      return true;
-      this.converertToCSharpClass(value.value)
+    
     } else if (this.objtype == 'CSHARP') {
       this.converertToCSharpClasswithJson(value.value)
     } else {
