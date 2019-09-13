@@ -15,8 +15,8 @@ export class ConverterComponent {
   val
 
   submit(value) {
+    this.val = value.value
     if (this.objtype == 'JSON') {
-      this.val = value.value
       try {
         JSON.parse(value.value);
         this.converertToCSharpClass(value.value)
@@ -26,15 +26,12 @@ export class ConverterComponent {
       }
 
     } else if (this.objtype == 'CSHARP') {
+
       this.converertToCSharpClasswithJson(value.value)
     } else {
       alert('Pleas, select type JSON or C#')
     }
 
-  }
-  objtype
-  onRadioChange(value) {
-    this.objtype = value
   }
 
   includeJsonProperty = false
@@ -43,12 +40,18 @@ export class ConverterComponent {
     if (this.val) {
       if (this.objtype == 'JSON') {
         this.converertToCSharpClass(this.val)
-      } else if (this.objtype == 'CSHARP') {
-        this.converertToCSharpClasswithJson(value.value)
+
+      } else if (this.objtype == 'CSHARP' ) {
+        this.converertToCSharpClasswithJson(this.val)
       }
     }
   }
 
+  objtype
+  onRadioChange(value) {
+    this.objtype = value
+    console.log(this.objtype)
+  }
 
   cSharpClassArray = []
   cSharpString = ''
