@@ -24,7 +24,7 @@ export class ConverterComponent {
         alert('Pleas, enter a valid JSON')
         return false;
       }
-    
+
     } else if (this.objtype == 'CSHARP') {
       this.converertToCSharpClasswithJson(value.value)
     } else {
@@ -32,20 +32,23 @@ export class ConverterComponent {
     }
 
   }
+  objtype
+  onRadioChange(value) {
+    this.objtype = value
+  }
 
   includeJsonProperty = false
   changeStatus(value) {
     this.includeJsonProperty = value
     if (this.val) {
-      this.converertToCSharpClass(this.val)
+      if (this.objtype == 'JSON') {
+        this.converertToCSharpClass(this.val)
+      } else if (this.objtype == 'CSHARP') {
+        this.converertToCSharpClasswithJson(value.value)
+      }
     }
   }
 
-  objtype
-  onRadioChange(value) {
-    this.objtype = value
-    console.log(this.objtype)
-  }
 
   cSharpClassArray = []
   cSharpString = ''
@@ -88,29 +91,38 @@ export class ConverterComponent {
 
 
   finalstring = ''
+  properties = []
+  filterProperties = []
+
   converertToCSharpClasswithJson(str) {
-    this.finalstring =''
+    this.properties = []
+    this.filterProperties = []
     this.cSharpClassArray = []
-    var x = str.trim().split("{ get; set; }").filter(e => e != "")
-    console.log(x)
-    x.forEach(element => {
+    this.properties = str.trim().split("{ get; set; }")
+    this.properties.forEach(element => {
+      element = element.replace(/{|}|"/g, "").trim();
+      this.filterProperties.push(element)
+    })
+
+    this.filterProperties.filter(e => e != "").forEach(element => {
+      this.finalstring = ''
       let r = element.trim().split(" ")
       let name = r[r.length - 1]
       let type = r[r.length - 2]
       let pub = r[r.length - 3]
       let upper = name.charAt(0).toUpperCase() + name.slice(1)
       let finstr = pub + ' ' + type + ' ' + name
-      let y = '[JsonProperty("' + upper + '")]' + finstr + ' ' + "{get; set;}"
-
+      let y
+      if (this.includeJsonProperty == true) {
+        y = '[JsonProperty("' + upper + '")]' + finstr + ' ' + "{get; set;}"
+      } else {
+        y = finstr + ' ' + "{get; set;}"
+      }
       this.finalstring = this.finalstring + y
-      //  console.log('this.finalstring', this.finalstring)
       this.cSharpClassArray.push(this.finalstring)
     });
-    // let r = Object.assign({}, ...[this.cSharpClassArray])
-    //  console.log(r)
+    console.log(this.cSharpClassArray)
+
   }
-
-
-
 
 }
