@@ -41,7 +41,7 @@ export class ConverterComponent {
       if (this.objtype == 'JSON') {
         this.converertToCSharpClass(this.val)
 
-      } else if (this.objtype == 'CSHARP' ) {
+      } else if (this.objtype == 'CSHARP') {
         this.converertToCSharpClasswithJson(this.val)
       }
     }
@@ -111,13 +111,16 @@ export class ConverterComponent {
       this.finalstring = ''
       let r = element.trim().split(" ")
       let name = r[r.length - 1]
-      let type = r[r.length - 2]
+      let strType = r[r.length - 2]
       let pub = r[r.length - 3]
-      let upper = name.charAt(0).toUpperCase() + name.slice(1)
-      let finstr = pub + ' ' + type + ' ' + name
+      let lower = name.charAt(0).toLowerCase() + name.slice(1)
+      // let finstr = ' ' + pub + ' ' + strType + ' ' + name.charAt(0).toLowerCase()+name.slice(1)
+
+      let finstr = ' ' + pub + ' ' + strType + ' ' + name.charAt(0).toUpperCase() + name.slice(1)
+
       let y
       if (this.includeJsonProperty == true) {
-        y = '[JsonProperty("' + upper + '")]' + finstr + ' ' + "{get; set;}"
+        y = '[JsonProperty("' + lower + '")]' + finstr + ' ' + "{get; set;}"
       } else {
         y = finstr + ' ' + "{get; set;}"
       }
