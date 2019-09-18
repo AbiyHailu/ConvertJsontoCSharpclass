@@ -120,7 +120,7 @@ export class ConverterComponent {
 
       let y
       if (this.includeJsonProperty == true) {
-        y = '[JsonProperty("' + lower + '")]' + finstr + ' ' + "{get; set;}"
+        y = '[JsonProperty("' + lower + '")]' + '\n'  + finstr + ' ' + "{get; set;}"
       } else {
         y = finstr + ' ' + "{get; set;}"
       }
@@ -130,5 +130,6 @@ export class ConverterComponent {
     console.log(this.cSharpClassArray)
 
   }
+
 
 }

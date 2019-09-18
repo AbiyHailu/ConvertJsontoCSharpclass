@@ -16,6 +16,7 @@ Include 'JsonProperty'
 <div>
  <!--  {{converted}} -->
 <div id ='formatted' *ngFor = 'let item of cSharpClassArray' >
- {{item}}
+<!--  {{item}} -->
+ <span [innerHTML]="item | replaceLineBreaks"></span>
 </div>
 </div>
