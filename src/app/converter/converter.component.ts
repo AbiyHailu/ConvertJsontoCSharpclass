@@ -106,7 +106,7 @@ export class ConverterComponent {
       element = element.replace(/{|}|"/g, "").trim();
       this.filterProperties.push(element)
     })
-
+    let lowernew
     this.filterProperties.filter(e => e != "").forEach(element => {
       this.finalstring = ''
       let r = element.trim().split(" ")
@@ -114,13 +114,20 @@ export class ConverterComponent {
       let strType = r[r.length - 2]
       let pub = r[r.length - 3]
       let lower = name.charAt(0).toLowerCase() + name.slice(1)
+      for (let chr of lower) {
+        if (chr == chr.toUpperCase()) {
+          console.log(lower.split(chr)[0]+"_"+chr.toLowerCase()+lower.split(chr)[1]);
+          lowernew = lower.split(chr)[0]+"_"+chr.toLowerCase()+lower.split(chr)[1]
+
+        }
+      }
       // let finstr = ' ' + pub + ' ' + strType + ' ' + name.charAt(0).toLowerCase()+name.slice(1)
 
       let finstr = ' ' + pub + ' ' + strType + ' ' + name.charAt(0).toUpperCase() + name.slice(1)
 
       let y
       if (this.includeJsonProperty == true) {
-        y = '[JsonProperty("' + lower + '")]' + '\n'  + finstr + ' ' + "{get; set;}"
+        y = '[JsonProperty("' + lowernew + '")]' + '\n' + finstr + ' ' + "{get; set;}"
       } else {
         y = finstr + ' ' + "{get; set;}"
       }
