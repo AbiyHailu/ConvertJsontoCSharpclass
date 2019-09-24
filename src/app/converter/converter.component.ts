@@ -127,7 +127,7 @@ export class ConverterComponent {
 
       let y
       if (this.includeJsonProperty == true) {
-        y = '[JsonProperty("' + lowernew + '")]' + '\n' + finstr + ' ' + "{get; set;}"
+        y = '[JsonProperty("' + lower + '")]' + '\n' + finstr + ' ' + "{get; set;}"
       } else {
         y = finstr + ' ' + "{get; set;}"
       }
